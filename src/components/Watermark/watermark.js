@@ -15,11 +15,12 @@ const config = {
 
 class waterMark {
   constructor(opt = {}) {
+    // containerId
     this.CONTAINERID = randomId();
     this.drawCanvas = this.drawCanvas.bind(this);
     this.parentObserver = this.parentObserver.bind(this);
     this.Repaint = this.Repaint.bind(this);
-    this.isOberserve = false;
+    this.isObserver = false;
     this.init(opt);
     this.drawCanvas();
     this.parentObserver();
@@ -37,7 +38,7 @@ class waterMark {
   }
 
   drawCanvas() {
-    this.isOberserve = true;
+    this.isObserver = true;
     let divContainer = document.createElement('div');
     let canvas = document.createElement('canvas');
     let context = canvas.getContext('2d');
@@ -66,13 +67,13 @@ class waterMark {
     divContainer.setAttribute('style', this.styleStr);
     document.body.appendChild(divContainer);
     this.wmObserver(divContainer);
-    this.isOberserve = false;
+    this.isObserver = false;
   }
 
   wmObserver(divContainer) {
     let wmConf = { attributes: true, childList: true, characterData: true };
     let wmObserver = new MutationObserver((mo) => {
-      if (!this.isOberserve) {
+      if (!this.isObserver) {
         let _obj = mo[0].target;
         _obj.setAttribute('style', this.styleStr);
         _obj.setAttribute('id', this.CONTAINERID);
@@ -84,7 +85,7 @@ class waterMark {
 
   parentObserver() {
     let bodyObserver = new MutationObserver(() => {
-      if (!this.isOberserve) {
+      if (!this.isObserver) {
         let __wm = document.querySelector(`#${this.CONTAINERID}`);
         if (!__wm) {
           this.drawCanvas();
@@ -97,7 +98,7 @@ class waterMark {
   }
 
   Repaint(opt = {}) {
-    this.isOberserve = true;
+    this.isObserver = true;
     this.init(opt);
     let _wm = document.querySelector(`#${this.CONTAINERID}`);
     _wm.parentNode.removeChild(_wm);
