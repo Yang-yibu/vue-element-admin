@@ -29,6 +29,7 @@ export default {
     mixChart: '混合图表',
     example: '综合实例',
     nested: '路由嵌套',
+    customComponent: '自定义组件',
     menu1: '菜单1',
     'menu1-1': '菜单 1-1',
     'menu1-2': '菜单 1-2',
