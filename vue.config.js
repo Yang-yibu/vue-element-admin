@@ -38,16 +38,40 @@ module.exports = {
     },
     before: require('./mock/mock-server.js')
   },
-  configureWebpack: {
-    // provide the app's title in webpack's name field, so that
-    // it can be accessed in index.html to inject the correct title.
-    name: name,
-    resolve: {
+  configureWebpack: config => {
+    config.entry = ['./node_modules/babel-polyfill/dist/polyfill.js', './src/main.js']
+    // config.entry.app = './src/main.js'
+    config.name = name
+    config.resolve = {
       alias: {
         '@': resolve('src')
       }
     }
   },
+  // pages: {
+  //   app: {
+  //     entry: './src/main.js',
+  //     template: 'public/index.html',
+  //     filename: 'index.html',
+  //     title: name,
+  //     chunks: [
+  //       // 'chunk-vendors', 'chunk-common',
+  //       'babel',
+  //       'app'
+  //     ]
+  //   },
+  //   babel: './node_modules/babel-polyfill'
+  // },
+  // configureWebpack: {
+  //   // provide the app's title in webpack's name field, so that
+  //   // it can be accessed in index.html to inject the correct title.
+  //   name: name,
+  //   resolve: {
+  //     alias: {
+  //       '@': resolve('src')
+  //     }
+  //   }
+  // },
   chainWebpack(config) {
     config.plugins.delete('preload') // TODO: need test
     config.plugins.delete('prefetch') // TODO: need test

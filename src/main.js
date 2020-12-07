@@ -1,4 +1,5 @@
 import Vue from 'vue'
+// import 'babel-polyfill'
 
 import Cookies from 'js-cookie'
 
@@ -44,6 +45,8 @@ Object.keys(filters).forEach(key => {
 })
 
 Vue.config.productionTip = false
+const a = 1
+console.log(a)
 
 new Vue({
   el: '#app',
