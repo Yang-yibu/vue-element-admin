@@ -10,12 +10,14 @@ props.column = [
     slot: '插槽名；使用插槽渲染单元格数据'
   },
   {
+    label: '列名，默认“操作“',
+    dataIndex: '默认 operate',
     className: '',
-    btnType: '统一这只 btn 的 type 类型，防止与表格行属性 type 冲突',
+    btnType: '统一设置 btn 的 type 类型，防止与表格行属性 type 冲突；el-button type 属性',
     operate: [
       {
-        name: '分析',
-        type: 'text',
+        name: '按钮文字',
+        type: 'btn type 类型',
         className: 'btn-default',
         func: 'actionAnalyse'
       }

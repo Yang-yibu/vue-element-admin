@@ -29,8 +29,8 @@
         <!-- 操作区 -->
         <el-table-column
           v-else-if="item.operate && item.operate.length"
-          :key="item.dataIndex"
-          label="操作"
+          :key="item.dataIndex || 'operate'"
+          :label="item.label || '操作'"
           :header-align="item.headerAlign"
           :fixed="item.fixed"
           :align="item.align"
