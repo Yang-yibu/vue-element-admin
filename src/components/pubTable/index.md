@@ -5,6 +5,12 @@ props.options = {
 }
 props.column = [
   {
+    label: '列表头文字',
+    dataIndex: ''
+  },
+  {
+    className: '',
+    btnType: '统一这只 btn 的 type 类型，防止与表格行属性 type 冲突',
     operate: [
       {
         name: '分析',
@@ -13,6 +19,12 @@ props.column = [
         func: 'actionAnalyse'
       }
     ]
+  }
+]
+
+props.data = [
+  {
+    operate: [{ name: '', disabled: true }] // 支持单行数据配置重新排序设置操作按钮是否禁用
   }
 ]
 ```

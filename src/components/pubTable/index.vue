@@ -34,22 +34,31 @@
           :header-align="item.headerAlign"
           :fixed="item.fixed"
           :align="item.align"
-          :sortable="item.sortable"
           :width="item.width"
           :min-width="item.minWidth"
         >
           <template v-if="item.operate && item.operate.length" slot-scope="scope">
             <!-- {{ (function (row) { debugger }(scope)) }} -->
+            <template v-if="scope.row.operate">
+              <el-button
+                v-for="(v, i) in useRowOperate(scope.row.operate, item.operate)"
+                :key="i"
+                :type="v.type || item.btnType"
+                size="mini"
+                :class="v.className || item.className"
+                :disabled="v.disabled"
+                @click.native.prevent.stop="buttonMethods(v.func, scope.$index, scope.row)"
+              >{{ v.name }}</el-button>
+            </template>
             <el-button
-              v-for="(item, index) in item.operate"
-              :key="index"
-              :type="item.type"
+              v-for="(v, i) in item.operate"
+              v-else
+              :key="i"
+              :type="v.type || item.btnType"
               size="mini"
-              :class="item.className"
-              @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)"
-            >
-              {{ item.name }}
-            </el-button>
+              :class="v.className || item.className"
+              @click.native.prevent.stop="buttonMethods(v.func, scope.$index, scope.row)"
+            >{{ v.name }}</el-button>
           </template>
         </el-table-column>
 
@@ -132,6 +141,29 @@ export default {
       // const { methods } = this.$options;
       // methods[func](index, row, that);
       this.$emit(func, { index, row })
+    },
+
+    /**
+     * 使用行数据中的 operate 属性对操作按钮进行控制
+     *
+     * @param {{name: string, disable: boolean}[]} rowOperate - 当前行的 operate 属性
+     * @param {{}} originOperate
+     * @returns {[]} newOperate
+     */
+    useRowOperate(rowOperate, originOperate) {
+      if (!Array.isArray(rowOperate)) {
+        return []
+      }
+
+      const originMap = {}
+      originOperate.map(v => {
+        originMap[v.name] = v
+      })
+      // [{name: '导出', disabled: true}]
+      const newOperate = rowOperate.map(v => {
+        return { ...originMap[v.name], disabled: v.disabled || false }
+      })
+      return newOperate
     }
   }
 }
