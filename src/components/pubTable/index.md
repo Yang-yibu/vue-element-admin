@@ -6,7 +6,8 @@ props.options = {
 props.column = [
   {
     label: '列表头文字',
-    dataIndex: ''
+    dataIndex: '',
+    slot: '插槽名；使用插槽渲染单元格数据'
   },
   {
     className: '',

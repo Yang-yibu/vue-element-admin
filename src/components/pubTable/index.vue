@@ -77,10 +77,14 @@
           :formatter="item.formatter"
           :show-overflow-tooltip="item.showOverflowTooltip"
         >
-          <template slot-scope="{ row }">
+          <template slot-scope="{ row, $index, column }">
+            <template v-if="item.slot">
+              <slot :name="item.slot" :row="row" :$index="$index" :column="column" />
+            </template>
+
             <!-- scope = { row, $index, column } -->
             <!-- {{ (function (row) { debugger }(row)) }} -->
-            <template v-if="item.dataIndex === 'idx'">{{ row[item.dataIndex] }}</template>
+            <template v-else-if="item.dataIndex === 'idx'">{{ row[item.dataIndex] }}</template>
             <template v-else-if="item.dataIndex === 'title' && row.idx">
               <div style="padding-left: 16px">{{ row[item.dataIndex] }}</div>
             </template>
