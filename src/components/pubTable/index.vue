@@ -6,6 +6,9 @@
       :data="data"
       :border="true"
       stripe
+      :size="options.size"
+      :header-cell-class-name="options.headerCellClassName"
+      :span-method="options.spanMethod"
       :row-key="options.rowKey || 'id'"
       :max-height="options.maxHeight"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
@@ -77,7 +80,19 @@
           :min-width="item.minWidth"
           :formatter="item.formatter"
           :show-overflow-tooltip="item.showOverflowTooltip"
+          :render-header="item.renderHeader"
         >
+          <!-- <template v-if="item.headerSlot">
+            <template slot="header" slot-scope="scope">
+              {{
+                (function(row) {
+                  debugger
+                })([item, scope])
+              }}
+              <slot :name="item.headerSlot" :column="scope.column" />
+            </template>
+          </template> -->
+
           <template slot-scope="{ row, $index, column }">
             <template v-if="item.slot">
               <slot :name="item.slot" :row="row" :$index="$index" :column="column" />
@@ -120,7 +135,6 @@
 export default {
   name: 'PubTable',
   props: {
-    // eslint-disable-next-line vue/require-default-prop
     tableClass: [String],
     // <el-table> 上的其他配置项
     options: {
