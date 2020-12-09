@@ -2,6 +2,7 @@
   <div v-loading="options.loading" class="pub_table">
     <el-table
       ref="pub-table"
+      :class="tableClass"
       :data="data"
       :border="true"
       stripe
@@ -119,6 +120,8 @@
 export default {
   name: 'PubTable',
   props: {
+    // eslint-disable-next-line vue/require-default-prop
+    tableClass: [String],
     // <el-table> 上的其他配置项
     options: {
       type: Object,

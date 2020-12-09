@@ -1,8 +1,19 @@
+## Props
+
+- `table-class` 外部样式类，在 `el-table` 同一元素上设置 `class`
+
+- `options` 其他配置项
+
 ```js
 props.options = {
   maxHeight: null,
   border: '不设置此属性，考虑整个系统中的 Table 应是统一的样式'
 }
+```
+
+- `column` 表头配置
+
+```js
 props.column = [
   {
     label: '列表头文字',
@@ -24,7 +35,11 @@ props.column = [
     ]
   }
 ]
+```
 
+- `data` 表格数据
+
+```js
 props.data = [
   {
     operate: [{ name: '', disabled: true }] // 支持单行数据配置重新排序设置操作按钮是否禁用
