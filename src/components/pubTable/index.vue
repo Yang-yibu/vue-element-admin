@@ -256,8 +256,8 @@ export default {
       // const { methods } = this.$options;
       // methods[func](index, row, that);
 
-      this.$emit('click-btns', { func, index, row })
-      this.$emit(func, { index, row })
+      func && this.$emit('click-btns', { func, index, row })
+      func && this.$emit(func, { index, row })
     },
 
     buttonToggle(show, row, name) {
