@@ -7,6 +7,9 @@ import 'normalize.css/normalize.css' // a modern alternative to CSS resets
 import Element from 'element-ui'
 import './styles/element-variables.scss'
 
+import ViewUI from 'view-design'
+import 'view-design/dist/styles/iview.css'
+
 import '@/styles/index.scss' // global css
 
 import App from './App'
@@ -36,6 +39,15 @@ if (process.env.NODE_ENV === 'production') {
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
+})
+Vue.use(ViewUI, {
+  transfer: true,
+  size: 'default',
+  capture: false,
+  select: {
+    arrow: 'md-arrow-dropdown',
+    arrowSize: 20
+  }
 })
 
 // register global utility filters
