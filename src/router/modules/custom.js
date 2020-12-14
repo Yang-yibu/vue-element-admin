@@ -34,6 +34,12 @@ const customRouter = {
           hidden: true
         }
       ]
+    },
+    {
+      path: 'table-example',
+      component: () => import('@/views/components-custom/cus-other/cus-table-example.vue'),
+      name: 'cus-table-example',
+      meta: { title: 'pub-table' }
     }
   ]
 }
