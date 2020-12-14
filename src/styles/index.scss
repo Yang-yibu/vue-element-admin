@@ -90,7 +90,7 @@ div:focus {
     visibility: hidden;
     display: block;
     font-size: 0;
-    content: " ";
+    content: ' ';
     clear: both;
     height: 0;
   }
@@ -195,6 +195,14 @@ aside {
     .el-table__indent {
       display: none;
     }
+  }
+  &.useExpandCellPadTB .el-table__expanded-cell {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  &.notExpandCellPadTB .el-table__expanded-cell {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   border-top: 1px solid #f5f5f5;

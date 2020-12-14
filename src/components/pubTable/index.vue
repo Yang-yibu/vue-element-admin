@@ -9,6 +9,7 @@
       :size="options.size"
       :header-cell-class-name="options.headerCellClassName"
       :span-method="options.spanMethod"
+      :show-header="options.showHeader"
       :row-key="options.rowKey || 'id'"
       :max-height="options.maxHeight"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
@@ -28,7 +29,11 @@
           :width="item.width"
           :min-width="item.minWidth"
           :formatter="item.formatter"
-        />
+        >
+          <template slot-scope="{ row, $index, column }">
+            <slot name="typeExpand" :row="row" :$index="$index" :column="column" />
+          </template>
+        </el-table-column>
 
         <!-- 操作区 -->
         <el-table-column

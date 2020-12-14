@@ -10,7 +10,8 @@ props.options = {
   border: '不设置此属性，考虑整个系统中的 Table 应是统一的样式',
   size: 'el-table 的 size 属性',
   headerCellClassName: '',
-  spanMethod: ''
+  spanMethod: '',
+  showHeader: ''
 }
 ```
 
@@ -21,7 +22,7 @@ props.column = [
 	{
 		label: '列表头文字',
 		dataIndex: '',
-		slot: '插槽名；使用插槽渲染单元格数据',
+		slot: '插槽名；使用插槽自定义单元格内容',
 		showOverflowTooltip: true, // 使用 el-table-colum 自带的 tooltip
 		renderHeader: 'header 渲染函数；注：通过 header#slot 封装不成功，原因不详',
 	},
@@ -63,6 +64,12 @@ props.data = [
   }
 ]
 ```
+
+## slot 插槽
+
+### typeExpand
+
+当 column 的 type 为 expand 时使用
 
 ## Method
 
