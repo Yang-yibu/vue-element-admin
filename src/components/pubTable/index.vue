@@ -17,7 +17,7 @@
     >
       <template v-for="item in column">
         <el-table-column
-          v-if="item.type"
+          v-if="item.type === 'expand'"
           :key="item.dataIndex"
           :prop="item.dataIndex"
           :type="item.type"
@@ -31,9 +31,24 @@
           :formatter="item.formatter"
         >
           <template slot-scope="{ row, $index, column }">
+            <!--  v-if="$scopedSlots.typeExpand"  -->
             <slot name="typeExpand" :row="row" :$index="$index" :column="column" />
           </template>
         </el-table-column>
+        <el-table-column
+          v-else-if="item.type"
+          :key="item.dataIndex"
+          :prop="item.dataIndex"
+          :type="item.type"
+          :label="item.label && item.label"
+          :header-align="item.headerAlign"
+          :fixed="item.fixed"
+          :align="item.align"
+          :sortable="item.sortable"
+          :width="item.width"
+          :min-width="item.minWidth"
+          :formatter="item.formatter"
+        />
 
         <!-- 操作区 -->
         <el-table-column
