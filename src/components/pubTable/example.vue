@@ -56,6 +56,9 @@
       <el-collapse-item title="展开行中，没有内容时可控制不显示展开图标" name="4">
         <NoDateNoExpand />
       </el-collapse-item>
+      <el-collapse-item title="自定义操作列" name="4">
+        <CustomOperate />
+      </el-collapse-item>
     </el-collapse>
   </div>
 </template>
@@ -63,10 +66,11 @@
 <script>
 import PubTable from './index'
 import NoDateNoExpand from './example/no-date-no-expand'
+import CustomOperate from './example/custom-operate'
 
 export default {
   name: 'PubTableExample',
-  components: { PubTable, NoDateNoExpand },
+  components: { PubTable, NoDateNoExpand, CustomOperate },
   data() {
     return {
       collapseIdx: '3',

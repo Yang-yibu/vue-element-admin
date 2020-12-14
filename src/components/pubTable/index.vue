@@ -56,7 +56,7 @@
 
         <!-- 操作区 -->
         <el-table-column
-          v-else-if="item.operate && item.operate.length"
+          v-else-if="item.operate || item.slot === 'operate'"
           :key="item.dataIndex || 'operate'"
           :label="item.label || '操作'"
           :header-align="item.headerAlign"
@@ -65,32 +65,34 @@
           :width="item.width"
           :min-width="item.minWidth"
         >
-          <template v-if="item.operate && item.operate.length" slot-scope="scope">
-            <!-- {{ (function (row) { debugger }(scope)) }} -->
-
-            <template v-if="scope.row.operate">
-              <el-button
-                v-for="(v, i) in useRowOperate(scope.row.operate, item.operate)"
-                :key="i"
-                :type="v.type || item.btnType"
-                size="mini"
-                :class="v.className || item.className"
-                :style="v.style || item.style"
-                :disabled="v.disabled"
-                @click.native.prevent.stop="$_buttonMethods(v.func, scope.$index, scope.row)"
-              >{{ v.name }}</el-button>
-            </template>
-            <el-button
-              v-for="(v, i) in item.operate"
-              v-else
-              v-show="buttonToggle(v.show, scope.row, v.name)"
-              :key="i"
-              :type="v.type || item.btnType"
-              size="mini"
-              :class="v.className || item.className"
-              :style="v.style || item.style"
-              @click.native.prevent.stop="$_buttonMethods(v.func, scope.$index, scope.row)"
-            >{{ v.name }}</el-button>
+          <template slot-scope="scope">
+            <slot name="operate" v-bind="scope">
+              <template v-if="item.operate && item.operate.length">
+                <template v-if="scope.row.operate">
+                  <el-button
+                    v-for="(v, i) in useRowOperate(scope.row.operate, item.operate)"
+                    :key="i"
+                    :type="v.type || item.btnType"
+                    size="mini"
+                    :class="v.className || item.className"
+                    :style="v.style || item.style"
+                    :disabled="v.disabled"
+                    @click.native.prevent.stop="$_buttonMethods(v.func, scope.$index, scope.row)"
+                  >{{ v.name }}</el-button>
+                </template>
+                <el-button
+                  v-for="(v, i) in item.operate"
+                  v-else
+                  v-show="buttonToggle(v.show, scope.row, v.name)"
+                  :key="i"
+                  :type="v.type || item.btnType"
+                  size="mini"
+                  :class="v.className || item.className"
+                  :style="v.style || item.style"
+                  @click.native.prevent.stop="$_buttonMethods(v.func, scope.$index, scope.row)"
+                >{{ v.name }}</el-button>
+              </template>
+            </slot>
           </template>
         </el-table-column>
 
