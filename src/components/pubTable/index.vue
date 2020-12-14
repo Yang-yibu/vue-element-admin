@@ -8,6 +8,8 @@
       stripe
       :size="options.size"
       :header-cell-class-name="options.headerCellClassName"
+      :row-class-name="options.rowClassName"
+      :cell-class-name="options.cellClassName"
       :span-method="options.spanMethod"
       :show-header="options.showHeader"
       :row-key="options.rowKey || 'id'"

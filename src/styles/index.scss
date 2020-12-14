@@ -205,6 +205,10 @@ aside {
     padding-bottom: 0;
   }
 
+  .expand__no-data .el-table__expand-icon {
+    display: none;
+  }
+
   // border-top: 1px solid #f5f5f5;
 
   .el-table__header {

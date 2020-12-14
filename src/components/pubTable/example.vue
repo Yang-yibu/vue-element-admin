@@ -34,7 +34,16 @@
           <li>show-page 是否显示分页器</li>
         </ul>
         <!-- 示例一 -->
-        <pub-table show-page style="padding-top: 16px" :loading="tableData1.loading" :column="tableData1.column" :data="tableData1.data" :page="tableData1.page" @click-btns="handleBtns" @page-current-change="onChangePage">
+        <pub-table
+          show-page
+          style="padding-top: 16px"
+          :loading="tableData1.loading"
+          :column="tableData1.column"
+          :data="tableData1.data"
+          :page="tableData1.page"
+          @click-btns="handleBtns"
+          @page-current-change="onChangePage"
+        >
           <!-- 自定义单元格内容 -->
           <template slot="slotStatus" slot-scope="scope">
             <!-- {{ rowAppalyStatus(scope.row) }} -->
@@ -43,16 +52,21 @@
           </template>
         </pub-table>
       </el-collapse-item>
+
+      <el-collapse-item title="展开行中，没有内容时可控制不显示展开图标" name="4">
+        <NoDateNoExpand />
+      </el-collapse-item>
     </el-collapse>
   </div>
 </template>
 
 <script>
 import PubTable from './index'
+import NoDateNoExpand from './example/no-date-no-expand'
 
 export default {
   name: 'PubTableExample',
-  components: { PubTable },
+  components: { PubTable, NoDateNoExpand },
   data() {
     return {
       collapseIdx: '3',
