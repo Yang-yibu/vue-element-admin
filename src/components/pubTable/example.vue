@@ -28,9 +28,13 @@
         <pub-table :column="table2.column" :data="table2.data" />
       </el-collapse-item>
 
-      <el-collapse-item title="自定义单元格、设置单元格对其方式（或只有表头对齐）、最小最大宽度、监听操作列点击事件、不同行操作列显示不同内容（是否禁用、显示顺序）" name="3">
+      <el-collapse-item title="组件基本用法" name="3">
+        <ul>
+          <li>自定义单元格、设置单元格对其方式（或只有表头对齐）、最小最大宽度、监听操作列点击事件、不同行操作列显示不同内容（是否禁用、显示顺序）</li>
+          <li>show-page 是否显示分页器</li>
+        </ul>
         <!-- 示例一 -->
-        <pub-table style="padding: 16px 0" :loading="tableData1.loading" :column="tableData1.column" :data="tableData1.list" @click-btns="handleBtns">
+        <pub-table show-page style="padding-top: 16px" :loading="tableData1.loading" :column="tableData1.column" :data="tableData1.data" :page="tableData1.page" @click-btns="handleBtns" @page-current-change="onChangePage">
           <!-- 自定义单元格内容 -->
           <template slot="slotStatus" slot-scope="scope">
             <!-- {{ rowAppalyStatus(scope.row) }} -->
@@ -51,7 +55,7 @@ export default {
   components: { PubTable },
   data() {
     return {
-      collapseIdx: '1',
+      collapseIdx: '3',
       table1: {
         column: [{ type: 'expand', width: 50 }, { label: '项目名称', dataIndex: 'xmmc', minWidth: 200 }],
         data: [
@@ -98,6 +102,7 @@ export default {
         loading: false,
         column: [
           // el-table 自己的 index 序号；此序号不满足可自定义列
+          // 还可以通过提供 dataIndex="idx"; 数据中使用 idx 渲染序号
           { label: '序号', type: 'index', width: 80, align: 'center' },
           { label: '标题', dataIndex: 'title', minWidth: 200 },
           { label: '申请类型', dataIndex: 'appalyType', width: 120 },
@@ -111,12 +116,43 @@ export default {
             operate: [{ name: '催办', func: 'btnUrging' }, { name: '删除', className: 'btn-danger', func: 'btnDel' }]
           }
         ],
-        list: [
+        data: [
           { id: 1, title: '采购申请-1', appalyType: '用章申请', startTime: '2020-05-29', status: '0' },
           { id: 2, title: '采购申请-2', appalyType: '用章申请', startTime: '2020-05-29', status: '1', operate: [{ name: '删除', disabled: true }] },
           { id: 3, title: '采购申请-3', appalyType: '用章申请', startTime: '2020-05-29', status: '0', operate: ['删除', '催办'] }
         ],
         page: {}
+      }
+    }
+  },
+  methods: {
+    onChangePage(val) {
+      window.console.log(val)
+      this.tableData1.page.current = val
+    },
+    rowAppalyStatus(row) {
+      // return this.statusMap[row.status];
+      const statusTxt = this.statusMap[row.status]
+      return (
+        <div>
+          <i class={`icon-status ${statusTxt.icon}`} />
+          <span>{statusTxt.text}</span>
+        </div>
+      )
+    },
+    handleBtns({ func, row, index }) {
+      switch (func) {
+        case 'btnUrging': {
+          this.$message.success(`第 ${index} 行 - 催办操作： ${row.title}`)
+          break
+        }
+        case 'btnDel': {
+          this.$message.error(`第 ${index} 行 - 删除操作： ${row.title}`)
+          break
+        }
+        default: {
+          break
+        }
       }
     }
   }

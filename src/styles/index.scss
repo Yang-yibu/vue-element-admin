@@ -230,4 +230,26 @@ aside {
   .el-table .cell {
     white-space: nowrap;
   }
+
+  .pages-box {
+    display: flex;
+    align-items: center;
+    padding-top: 16px;
+    padding-bottom: 16px;
+
+    &.pages-left {
+      justify-content: flex-start;
+    }
+    &.pages-center {
+      justify-content: center;
+    }
+    &.pages-right {
+      justify-content: flex-end;
+    }
+
+    .el-pagination {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
 }

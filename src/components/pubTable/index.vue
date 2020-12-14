@@ -152,6 +152,21 @@
         <CusEmpty isTableCenter />
       </template> -->
     </el-table>
+
+    <div v-if="showPage" :class="`space-box pages-box pages-${page.align || 'right'} ${pageClass}`">
+      <slot name="page-left" />
+      <el-pagination :current-page="page.current * 1" :page-size="page.pageSize || 10" layout="total, prev, pager, next, slot" :total="page.total || 0" @current-change="onChangeCurrent">
+        <span
+          class="el-pagination__jump"
+        >前往
+          <div class="el-input el-pagination__editor is-in-pagination">
+            <input v-model="jumperVal" type="number" autocomplete="off" min="1" :max="jumperMax" class="el-input__inner">
+          </div>
+          页</span>
+      </el-pagination>
+      <el-button type="primary" class="pub_button" size="small" @click="handleJumpSure(jumperVal)">确定</el-button>
+      <slot name="page-right" />
+    </div>
   </div>
 </template>
 
@@ -159,12 +174,22 @@
 export default {
   name: 'PubTable',
   props: {
+    // 调用组件时传入的 class style 等作用在 pub_table 同级
     tableClass: [String],
+    pageClass: [String],
+    showPage: Boolean,
+
     // <el-table> 上的其他配置项
     options: {
       type: Object,
       default: () => ({})
     },
+    // 分页器配置
+    page: {
+      type: Object,
+      default: () => ({})
+    },
+
     loading: {
       type: Boolean,
       default: false
@@ -182,9 +207,37 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      jumperVal: null
+    }
+  },
+  computed: {
+    jumperMax() {
+      const max = this.page.total / (this.page.pageSize || 10)
+      return max > 0 ? max : 1
+    }
+  },
+  watch: {
+    jumperVal(newVal) {
+      if (newVal > this.jumperMax) {
+        this.jumperVal = this.jumperMax
+      }
+      if (newVal === '0') {
+        this.jumperVal = 1
+      }
+    }
   },
   methods: {
+    handleJumpSure(val) {
+      const rVal = val || this.page.current
+      if (val > this.jumperMax) {
+        val = this.jumperMax
+      }
+      this.$emit('page-current-change', rVal)
+    },
+    onChangeCurrent(val) {
+      this.$emit('page-current-change', val)
+    },
     handleSelectionChange(selection) {
       this.$emit('selection-change', selection)
     },
