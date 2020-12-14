@@ -13,9 +13,9 @@
       :row-key="options.rowKey || 'id'"
       :max-height="options.maxHeight"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-      @selection-change="handleSelectionChange"
-      @select="$listeners.select"
-      @select-all="$listeners['select-all']"
+      @selection-change="$_selectionChange"
+      @select="$_select"
+      @select-all="$_selectAll"
     >
       <template v-for="item in column">
         <el-table-column
@@ -75,7 +75,7 @@
                 :class="v.className || item.className"
                 :style="v.style || item.style"
                 :disabled="v.disabled"
-                @click.native.prevent.stop="buttonMethods(v.func, scope.$index, scope.row)"
+                @click.native.prevent.stop="$_buttonMethods(v.func, scope.$index, scope.row)"
               >{{ v.name }}</el-button>
             </template>
             <el-button
@@ -87,7 +87,7 @@
               size="mini"
               :class="v.className || item.className"
               :style="v.style || item.style"
-              @click.native.prevent.stop="buttonMethods(v.func, scope.$index, scope.row)"
+              @click.native.prevent.stop="$_buttonMethods(v.func, scope.$index, scope.row)"
             >{{ v.name }}</el-button>
           </template>
         </el-table-column>
@@ -240,10 +240,16 @@ export default {
     onChangeCurrent(val) {
       this.$emit('page-current-change', val)
     },
-    handleSelectionChange(selection) {
+    $_select(selection, row) {
+      this.$emit('select', selection, row)
+    },
+    $_selectAll(selection) {
+      this.$emit('select-all', selection)
+    },
+    $_selectionChange(selection) {
       this.$emit('selection-change', selection)
     },
-    buttonMethods(func, index, row) {
+    $_buttonMethods(func, index, row) {
       // const that = this;
       // const { methods } = this.$options;
       // methods[func](index, row, that);
@@ -251,6 +257,7 @@ export default {
       this.$emit('click-btns', { func, index, row })
       this.$emit(func, { index, row })
     },
+
     buttonToggle(show, row, name) {
       if (show) {
         return this.toggle(row, name)
