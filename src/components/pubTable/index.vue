@@ -181,8 +181,14 @@ export default {
   name: 'PubTable',
   props: {
     // 调用组件时传入的 class style 等作用在 pub_table 同级
-    tableClass: [String],
-    pageClass: [String],
+    tableClass: {
+      type: String,
+      default: ''
+    },
+    pageClass: {
+      type: String,
+      default: ''
+    },
     showPage: Boolean,
 
     // <el-table> 上的其他配置项
@@ -209,7 +215,8 @@ export default {
       default: () => []
     },
     toggle: {
-      type: Function
+      type: Function,
+      default: () => false
     }
   },
   data() {
