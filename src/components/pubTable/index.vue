@@ -14,6 +14,8 @@
       :max-height="options.maxHeight"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       @selection-change="handleSelectionChange"
+      @select="$listeners.select"
+      @select-all="$listeners['select-all']"
     >
       <template v-for="item in column">
         <el-table-column
