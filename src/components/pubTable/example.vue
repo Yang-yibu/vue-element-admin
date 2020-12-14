@@ -24,8 +24,20 @@
         </pub-table>
       </el-collapse-item>
 
-      <el-collapse-item title="正常功能" name="2">
+      <el-collapse-item title="其他类型 Type" name="2">
         <pub-table :column="table2.column" :data="table2.data" />
+      </el-collapse-item>
+
+      <el-collapse-item title="自定义单元格、设置单元格对其方式（或只有表头对齐）、最小最大宽度、监听操作列点击事件、不同行操作列显示不同内容（是否禁用、显示顺序）" name="3">
+        <!-- 示例一 -->
+        <pub-table style="padding: 16px 0" :loading="tableData1.loading" :column="tableData1.column" :data="tableData1.list" @click-btns="handleBtns">
+          <!-- 自定义单元格内容 -->
+          <template slot="slotStatus" slot-scope="scope">
+            <!-- {{ rowAppalyStatus(scope.row) }} -->
+            <i :class="`icon-status ${statusMap[scope.row.status].icon}`" />
+            <span>{{ statusMap[scope.row.status].text }}</span>
+          </template>
+        </pub-table>
       </el-collapse-item>
     </el-collapse>
   </div>
@@ -80,6 +92,31 @@ export default {
             zgbm: '广州市财政局'
           }
         ]
+      },
+      statusMap: [{ icon: 'icon-1', text: '审批中' }, { icon: 'icon-2', text: '已审批' }],
+      tableData1: {
+        loading: false,
+        column: [
+          // el-table 自己的 index 序号；此序号不满足可自定义列
+          { label: '序号', type: 'index', width: 80, align: 'center' },
+          { label: '标题', dataIndex: 'title', minWidth: 200 },
+          { label: '申请类型', dataIndex: 'appalyType', width: 120 },
+          { label: '发起时间', dataIndex: 'startTime', width: 140 },
+          { label: '流转状态', dataIndex: 'status', width: 150, slot: 'slotStatus' },
+          {
+            className: 'btn-default',
+            btnType: 'text',
+            width: 100,
+            headerAlign: 'center',
+            operate: [{ name: '催办', func: 'btnUrging' }, { name: '删除', className: 'btn-danger', func: 'btnDel' }]
+          }
+        ],
+        list: [
+          { id: 1, title: '采购申请-1', appalyType: '用章申请', startTime: '2020-05-29', status: '0' },
+          { id: 2, title: '采购申请-2', appalyType: '用章申请', startTime: '2020-05-29', status: '1', operate: [{ name: '删除', disabled: true }] },
+          { id: 3, title: '采购申请-3', appalyType: '用章申请', startTime: '2020-05-29', status: '0', operate: ['删除', '催办'] }
+        ],
+        page: {}
       }
     }
   }

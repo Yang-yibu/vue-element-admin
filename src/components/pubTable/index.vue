@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="options.loading" class="pub_table">
+  <div v-loading="loading" class="pub_table">
     <el-table
       ref="pub-table"
       :class="tableClass"
@@ -63,6 +63,7 @@
         >
           <template v-if="item.operate && item.operate.length" slot-scope="scope">
             <!-- {{ (function (row) { debugger }(scope)) }} -->
+
             <template v-if="scope.row.operate">
               <el-button
                 v-for="(v, i) in useRowOperate(scope.row.operate, item.operate)"
@@ -70,6 +71,7 @@
                 :type="v.type || item.btnType"
                 size="mini"
                 :class="v.className || item.className"
+                :style="v.style || item.style"
                 :disabled="v.disabled"
                 @click.native.prevent.stop="buttonMethods(v.func, scope.$index, scope.row)"
               >{{ v.name }}</el-button>
@@ -77,10 +79,12 @@
             <el-button
               v-for="(v, i) in item.operate"
               v-else
+              v-show="buttonToggle(v.show, scope.row, v.name)"
               :key="i"
               :type="v.type || item.btnType"
               size="mini"
               :class="v.className || item.className"
+              :style="v.style || item.style"
               @click.native.prevent.stop="buttonMethods(v.func, scope.$index, scope.row)"
             >{{ v.name }}</el-button>
           </template>
@@ -145,8 +149,8 @@
         </el-table-column>
       </template>
       <!-- <template slot="empty">
-                <CusEmpty isTableCenter />
-            </template> -->
+        <CusEmpty isTableCenter />
+      </template> -->
     </el-table>
   </div>
 </template>
@@ -161,6 +165,10 @@ export default {
       type: Object,
       default: () => ({})
     },
+    loading: {
+      type: Boolean,
+      default: false
+    },
     column: {
       type: Array,
       required: true
@@ -168,6 +176,9 @@ export default {
     data: {
       type: Array,
       default: () => []
+    },
+    toggle: {
+      type: Function
     }
   },
   data() {
@@ -181,9 +192,16 @@ export default {
       // const that = this;
       // const { methods } = this.$options;
       // methods[func](index, row, that);
+
+      this.$emit('click-btns', { func, index, row })
       this.$emit(func, { index, row })
     },
-
+    buttonToggle(show, row, name) {
+      if (show) {
+        return this.toggle(row, name)
+      }
+      return true
+    },
     /**
      * 使用行数据中的 operate 属性对操作按钮进行控制
      *
@@ -200,8 +218,12 @@ export default {
       originOperate.map(v => {
         originMap[v.name] = v
       })
-      // [{name: '导出', disabled: true}]
+      // 数据示例 [{name: '导出', disabled: true}]
+      // disable 就是 el-btn 上的禁用属性
       const newOperate = rowOperate.map(v => {
+        if (typeof v === 'string') {
+          return { ...originMap[v], disabled: false }
+        }
         return { ...originMap[v.name], disabled: v.disabled || false }
       })
       return newOperate

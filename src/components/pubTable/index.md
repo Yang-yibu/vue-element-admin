@@ -1,3 +1,9 @@
+## 待完善
+
+- [ ] 添加底部页码；调用只需传入相关页码属性
+- [ ] 添加空白页
+- [ ] 设置最大高度、高度占满当前页剩余空间
+
 ## Props
 
 - `table-class` 外部样式类，在 `el-table` 同一元素上设置 `class`
@@ -67,13 +73,31 @@ props.data = [
 
 ## slot 插槽
 
-### typeExpand
+### 其他
+
+```js
+{ lable: '列名', slot: '插槽名' }
+```
+
+```vue
+// scope: { row, $index, column } // scope 可以使用 JS 解构语法
+<template slot="插槽名" slot-scope="scope">
+  <!-- {{ rowAppalyStatus(scope.row) }} -->
+  <span>{{ scope.row.status }}</span>
+</template>
+```
+
+### 特定具名插槽 typeExpand
 
 当 column 的 type 为 expand 时使用
 
 ## Method
 
-### 操作函数
+### Btn 操作 operate 函数
+
+这两种方式会同时触发
+
+#### 单独触发通知
 
 ```html
 <pub-table @actionA="actionA" />
@@ -86,5 +110,22 @@ methods = {
    * @param {} idxRow.row - 当前行数据
    */
   actionA(idxRow) {}
+}
+```
+
+#### 一起触发通知
+
+```html
+<pub-table @click-btns="handleBtns" />
+```
+
+```js
+methods = {
+  /**
+   * @param {} idxRow.func - operate 中的 func 属性
+   * @param {} idxRow.index - 当前行下标
+   * @param {} idxRow.row - 当前行数据
+   */
+  handleBtns(idxRow) {}
 }
 ```
