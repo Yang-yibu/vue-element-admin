@@ -8,6 +8,7 @@ export default {
     if (value && value instanceof Array && value.length > 0) {
       const permissionRoles = value
 
+      // some 检测数组中的元素是否满足指定条件（回调函数确定）；有一个满足即返回 true 否则返回 false
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })
