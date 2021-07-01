@@ -2,6 +2,7 @@ const chokidar = require('chokidar')
 const bodyParser = require('body-parser')
 const chalk = require('chalk')
 const path = require('path')
+const launchEditorMiddleware = require('launch-editor-middleware')
 
 const mockDir = path.join(process.cwd(), 'mock')
 
@@ -30,6 +31,12 @@ function unregisterRoutes() {
 module.exports = app => {
   // es6 polyfill
   require('@babel/register')
+
+  app.use('/__open-in-editor', launchEditorMiddleware('code'))
+  // () => console.log(
+  //   `To specify an editor, sepcify the EDITOR env variable or ` +
+  //   `add "editor" field to your Vue project config.\n`
+  // )
 
   // parse app.body
   // https://expressjs.com/en/4x/api.html#req.body
